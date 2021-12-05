@@ -68,7 +68,7 @@ const emojiByCategory = category =>
 const sortEmoji = list => list.sort((a, b) => a.sort_order - b.sort_order);
 const categoryKeys = Object.keys(Categories);
 
-const TabBar = ({ theme, activeCategory, onPress, width }) => {
+const TabBar = ({ theme, activeCategory, onPress, width, tabBarSize }) => {
   const tabSize = width / categoryKeys.length;
 
   return categoryKeys.map(c => {
@@ -91,7 +91,7 @@ const TabBar = ({ theme, activeCategory, onPress, width }) => {
             style={{
               textAlign: "center",
               paddingBottom: 8,
-              fontSize: tabSize - 24
+              fontSize: tabBarSize? tabBarSize: tabSize - 15
             }}
           >
             {category.symbol}
@@ -101,7 +101,7 @@ const TabBar = ({ theme, activeCategory, onPress, width }) => {
   });
 };
 
-const EmojiCell = ({ emoji, colSize, ...other }) => (
+const EmojiCell = ({ emoji, colSize, size, ...other }) => (
   <TouchableOpacity
     activeOpacity={0.5}
     style={{
@@ -112,7 +112,7 @@ const EmojiCell = ({ emoji, colSize, ...other }) => (
     }}
     {...other}
   >
-    <Text style={{ color: "#FFFFFF", fontSize: colSize - 12 }}>
+    <Text style={{ color: "#FFFFFF", fontSize: size? size: colSize - 18 }}>
       {charFromEmojiObject(emoji)}
     </Text>
   </TouchableOpacity>
@@ -196,6 +196,7 @@ export default class EmojiSelector extends Component {
       emoji={item.emoji}
       onPress={() => this.handleEmojiSelect(item.emoji)}
       colSize={this.state.colSize}
+      size={this.props.emojiSize}
     />
   );
 
@@ -313,6 +314,7 @@ export default class EmojiSelector extends Component {
               onPress={this.handleTabSelect}
               theme={theme}
               width={this.state.width}
+               tabBarSize={this.props.tabBarSize}
             />
           )}
         </View>
